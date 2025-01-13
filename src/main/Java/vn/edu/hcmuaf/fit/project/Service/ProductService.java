@@ -31,6 +31,7 @@ public class ProductService {
     public Product findById(String id) throws SQLException, ClassNotFoundException {
         return productDao.getByID(id);
     }
+
     // phan trang
     public int countProduct() throws SQLException, ClassNotFoundException {
         return productDao.countProduct();
@@ -44,6 +45,7 @@ public class ProductService {
     public List<Product> sortTang() throws SQLException, ClassNotFoundException {
         return productDao.sortTang();
     }
+
     public List<Product> sortGiam() throws SQLException, ClassNotFoundException {
         return productDao.sortGiam();
     }
@@ -54,7 +56,7 @@ public class ProductService {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-//        ProductService productService = new ProductService();
+        ProductService productService = new ProductService();
 //        String sizeRange = "Dưới 2,5m";
 ////        List<Product> list = productService.getProductbyCateID("1");
 //        List<Product> list = productService.listSizeRange(sizeRange);
@@ -64,9 +66,9 @@ public class ProductService {
 //        ProductService productService = new ProductService();
 //        String min = "12000";
 //        String max = "trở lên";
-//        List<Product> getProductByPriceRange = productService.getProductByPriceRange(min,max);
-//        for (Product PriceRangeList : getProductByPriceRange) {
-//            System.out.println(PriceRangeList);
-//        }
+        List<Product> getProductByPriceRange = productService.PageProducts(1);
+        for (Product PriceRangeList : getProductByPriceRange) {
+            System.out.println(PriceRangeList);
+        }
     }
 }

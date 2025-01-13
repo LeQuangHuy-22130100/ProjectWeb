@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sofa Shop</title>
     <link rel="stylesheet" href="JSPWeb/CSS/Product.css">
+    <link rel="stylesheet" href="JSPWeb/CSS/PageActive.css">
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
             integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
             crossorigin="anonymous"></script>
@@ -17,6 +18,8 @@
           integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <script src="./JSPWeb/js/scoller_header.js" ></script>
+<%--    <script src="./JSPWeb/dropdown.js" ></script>--%>
 </head>
 
 <body>
@@ -163,18 +166,19 @@
                     </div>
                 </c:forEach>
         </div>
-<%--        <div class="pagination">--%>
-<%--            <c:forEach var="i" begin="1" end="${endPage}">--%>
-<%--                <a href="Products?index=${i}" class="page-number">${i}</a>--%>
-<%--            </c:forEach>--%>
-<%--        </div>--%>
+        <div class="pagination">
+            <c:forEach var="i" begin="1" end="${endPage}">
+                <a href="Products?pageIndex=${i}"
+                   class="${i == stayPage ? 'active' : ''}">
+                        ${i}
+                </a>
+            </c:forEach>
+        </div>
     </main>
 <footer>
     <p>&copy; 2024 Sofa Shop. All rights reserved.</p>
 </footer>
-<!-- <script src="/js/scipt.js"></script> -->
-<script src="./JSPWeb/js/scoller_header.js"></script>
-<script src="./JSPWeb/dropdown.js"></script>
+<%--<script src="./JSPWeb/js/scoller_header.js"></script>--%>
+<%--<script src="./JSPWeb/dropdown.js"></script>--%>
 </body>
-
 </html>

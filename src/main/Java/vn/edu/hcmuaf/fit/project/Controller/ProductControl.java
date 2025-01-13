@@ -23,57 +23,38 @@ public class ProductControl extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //get all Product
-        ProductService productService= new ProductService();
-        List<Product> ProductData= null;
-        try {
-            ProductData = productService.getAll();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        ProductService productService = new ProductService();
+        String pageIndex = request.getParameter("pageIndex");
+        if (pageIndex == null) {
+            pageIndex = "1";
+        }
+        int index = Integer.parseInt(pageIndex);
+        int count = productService.countProduct();
+        int endPage = count / 15;
+        if (count % 15 != 0) {
+            endPage++;
         }
 
-        // get all Categories
+        List<Product> ProductData = productService.PageProducts(index);
+
         CategoryService categoryService = new CategoryService();
-        List<categories> CategoryData= null;
-        try {
-            CategoryData = categoryService.getAll();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        List<categories> CategoryData = categoryService.getAll();
 
-        //get all Sizes
         SizeService sizeService = new SizeService();
-        List<Sizes> SizeData= null;
-        try {
-            SizeData = sizeService.getAllSize();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        List<Sizes> SizeData = sizeService.getAllSize();
 
-        //get all PriceRange
         PriceRangeService priceRangeService = new PriceRangeService();
         List<PriceRange> PriceRangeData = priceRangeService.getAllPriceRange();
 
-        request.setAttribute("ProductControl",ProductData);
-        request.setAttribute("CateProduct",CategoryData);
-        request.setAttribute("SizeProduct",SizeData);
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("stayPage", index);
+        request.setAttribute("ProductControl", ProductData);
+        request.setAttribute("CateProduct", CategoryData);
+        request.setAttribute("SizeProduct", SizeData);
         request.setAttribute("PriceProduct", PriceRangeData);
-        request.getRequestDispatcher("Product.jsp").forward(request,response);
 
-//        ProductService productService = new ProductService();
-//        int count = productService.countProduct();
-//        int endPage = count/3;
-//        if (count%3 != 0) {
-//            endPage++;
-//        }
-//        request.setAttribute("endPage", endPage);
-//        request.getRequestDispatcher("Product.jsp").forward(request, response);
-//
-//        // phan trang
-//        String pageIndex = request.getParameter("pageIndex");
-//        int index = Integer.parseInt(pageIndex);
-//        List<Product> list = productService.PageProducts(index);
-//        request.setAttribute("listP", list);
+        request.getRequestDispatcher("Product.jsp").forward(request, response);
+
     }
 
     @Override

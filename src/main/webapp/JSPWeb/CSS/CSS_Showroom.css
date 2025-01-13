@@ -148,25 +148,19 @@ header.header_home_menu .social_icon li {
     font-size: 27px;
 }
 
-/* layer3 */
-.layer3, .layer4{
+/* Layer3 */
+.layer3 {
     padding-top: 50px;
     margin: 0;
     display: flex;
-    align-items: center;
     justify-content: center;
+    padding-left: 100px;  /* Khoảng cách 100px từ bên trái */
+    padding-right: 100px; /* Khoảng cách 100px từ bên phải */
+    flex-direction: column; /* Đặt các phần tử thẳng hàng từ trên xuống dưới */
+    align-items: center;   /* Căn giữa các phần tử theo chiều ngang */
 }
-.layer5{
-    padding-top: 50px;
-    padding-bottom: 50px;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.layer3 .text,
-.layer4 .text,
-.layer5 .text {
+
+.layer3 .text{
     max-width: 800px; /* Giới hạn chiều rộng để cân đối */
     margin-right: 10px; /* khoảng cách giữa text và ggMap*/
     padding: 3px; /* Thêm khoảng cách bên trong */
@@ -175,19 +169,13 @@ header.header_home_menu .social_icon li {
     text-align: justify; /* Căn chỉnh đều hai bên */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.layer3 .text h3,
-.layer4 .text h3,
-.layer5 .text h3  {
+.layer3 .text h3{
     font-size: 30px;
 }
-.layer3 .text p,
-.layer4 .text p,
-.layer5 .text p {
+.layer3 .text p{
     color: rgb(105, 95, 92);
 }
-.layer3 .ggMap img,
-.layer4 .ggMap img,
-.layer5 .ggMap img{
+.layer3 .ggMap img{
     border-radius: 10px;
 }
 

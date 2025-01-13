@@ -31,10 +31,6 @@ public class productDAO {
     public List<Product> getAll() throws SQLException, ClassNotFoundException {
         // Kết nối với database thông qua DBConnect
         rs = stmt.executeQuery(
-//                        "SELECT product.* \n" +
-//                        "FROM product \n" +
-//                        "JOIN categories ON product.CategoryID = categories.CategoryID \n" +
-//                        "JOIN sizes ON product.SizeID = sizes.SizeID"
                             "SELECT p.*, \n" +
                                     "       c.Name AS category_name, \n" +
                                     "       s.Size AS size_name\n" +
@@ -266,17 +262,21 @@ public class productDAO {
 
     // danh sach product theo trang
     public List<Product> PageProducts(int index) throws SQLException, ClassNotFoundException {
+        int pageSize = 15;
+        int offset = (index - 1) * pageSize;
         List<Product> products = new ArrayList<>();
         String query =
-                        "SELECT * \n" +
+                        "SELECT *, sizes.Size\n" +
                                 "FROM product\n" +
-                                "ORDER BY product.ProductID\n" +
-                                "LIMIT 3 OFFSET ?;";
+                                "JOIN sizes ON product.SizeID = sizes.SizeID\n"+
+                                "LIMIT ? OFFSET ?";
+
         try (
                 Connection con = DBConnect.get().getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query)
         ) {
-            pstmt.setInt(1, (index-1)*3);
+            pstmt.setInt(1, pageSize);
+            pstmt.setInt(2, offset);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     Product product = new Product();
@@ -416,8 +416,8 @@ public class productDAO {
 //        int count = productDao.countProduct();
 //        System.out.println(count);
 
-        String name = "Sofa nhập khẩu Hưng Phát Sài Gòn";
-        List<Product> all = productDao.findProductbyName(name);
+//        String name = "Sofa nhập khẩu Hưng Phát Sài Gòn";
+        List<Product> all = productDao.PageProducts(1);
         for (Product productdata : all) {
             System.out.println(productdata);
             System.out.println("------------------------------------");

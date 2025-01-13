@@ -28,14 +28,8 @@ public class CategoryControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String categoryID = request.getParameter("cateID");
         ProductService productService= new ProductService();
-
         // get product by cateID
-        List<Product> ProductData= null;
-        try {
-            ProductData = productService.getProductbyCateID(categoryID);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        List<Product> ProductData= productService.getProductbyCateID(categoryID);
 
         //get all categories
         CategoryService categoryService = new CategoryService();
@@ -48,12 +42,6 @@ public class CategoryControl extends HttpServlet {
         //get all PriceRange
         PriceRangeService priceRangeService = new PriceRangeService();
         List<PriceRange> PriceRangeData = priceRangeService.getAllPriceRange();
-
-//        //Check null
-//        if (ProductData == null) {
-//            ProductData = new ArrayList<>();
-//        }
-
 
         request.setAttribute("ProductControl",ProductData);
         request.setAttribute("CateProduct",CategoryData);
