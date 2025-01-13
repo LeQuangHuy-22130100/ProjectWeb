@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.project.DAO.dao;
 
 import com.google.protobuf.Enum;
+import lombok.SneakyThrows;
 import vn.edu.hcmuaf.fit.project.DAO.db.DBConnect;
 import vn.edu.hcmuaf.fit.project.DAO.model.Product;
 import vn.edu.hcmuaf.fit.project.DAO.model.Sizes;
@@ -101,43 +102,6 @@ public class productDAO {
         }
         return product;
 
-    }
-
-    public List<Product> getListProductByCategoryName(String nameCategory) throws SQLException, ClassNotFoundException {
-        List<Product> products = new ArrayList<>();
-        String query =
-                "SELECT p.*, \n" +
-                        "c.Name AS category_name, \n" +
-                        "s.Size AS size_name\n" +
-                        "FROM product p\n" +
-                        "JOIN categories c ON p.CategoryId = c.CategoryId " +
-                        "JOIN sizes s ON p.SizeID = s.SizeID " +
-                "WHERE c.Name = ?";
-
-        try (
-                Connection con = DBConnect.get().getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)
-        ) {
-            pstmt.setString(1, nameCategory);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    Product product = new Product();
-                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
-                    product.setId(rs.getInt(1));
-                    product.setCategoryID(category);
-                    product.setName(rs.getString(3));
-                    product.setImage(rs.getString(4));
-                    product.setPrice(rs.getDouble(5));
-                    product.setDescription(rs.getString(6));
-                    product.setStock(rs.getInt(7));
-                    product.setMatarial(rs.getString(8));
-                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("size_name"));
-                    product.setSize(sizes);
-                    products.add(product);
-                }
-            }
-        }
-        return products;
     }
 
     public List<Product> getListProductByCategoryID(String CategoryID) throws SQLException, ClassNotFoundException {
@@ -283,6 +247,164 @@ public class productDAO {
         return products;
     }
 
+    //phaan trang
+    @SneakyThrows
+    public int countProduct() throws SQLException, ClassNotFoundException{
+        String query = "SELECT COUNT(*) FROM product";
+        try (
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        }
+        return 0;
+    }
+
+    // danh sach product theo trang
+    public List<Product> PageProducts(int index) throws SQLException, ClassNotFoundException {
+        List<Product> products = new ArrayList<>();
+        String query =
+                        "SELECT * \n" +
+                                "FROM product\n" +
+                                "ORDER BY product.ProductID\n" +
+                                "LIMIT 3 OFFSET ?;";
+        try (
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+            pstmt.setInt(1, (index-1)*3);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+                    product.setId(rs.getInt(1));
+                    product.setCategoryID(category);
+                    product.setName(rs.getString(3));
+                    product.setImage(rs.getString(4));
+                    product.setPrice(rs.getDouble(5));
+                    product.setDescription(rs.getString(6));
+                    product.setStock(rs.getInt(7));
+                    product.setMatarial(rs.getString(8));
+                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("Size"));
+                    product.setSize(sizes);
+                    products.add(product);
+                }
+                rs.close();
+                stmt.close();
+            }
+        }
+        return products;
+    }
+
+    //sort product tang dan
+    public List<Product> sortTang() throws SQLException, ClassNotFoundException {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT *, sizes.Size\n" +
+                "FROM product\n" +
+                "JOIN sizes ON product.SizeID = sizes.SizeID\n" +
+                "ORDER BY product.Price ASC";
+        try (
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+                    product.setId(rs.getInt(1));
+                    product.setCategoryID(category);
+                    product.setName(rs.getString(3));
+                    product.setImage(rs.getString(4));
+                    product.setPrice(rs.getDouble(5));
+                    product.setDescription(rs.getString(6));
+                    product.setStock(rs.getInt(7));
+                    product.setMatarial(rs.getString(8));
+                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("Size"));
+                    product.setSize(sizes);
+                    products.add(product);
+                }
+                rs.close();
+                stmt.close();
+            }
+        }
+        return products;
+    }
+
+    //sort product giam dan
+    public List<Product> sortGiam() throws SQLException, ClassNotFoundException {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT *, sizes.Size\n" +
+                "FROM product\n" +
+                "JOIN sizes ON product.SizeID = sizes.SizeID\n" +
+                "ORDER BY product.Price DESC;";
+        try (
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+                    product.setId(rs.getInt(1));
+                    product.setCategoryID(category);
+                    product.setName(rs.getString(3));
+                    product.setImage(rs.getString(4));
+                    product.setPrice(rs.getDouble(5));
+                    product.setDescription(rs.getString(6));
+                    product.setStock(rs.getInt(7));
+                    product.setMatarial(rs.getString(8));
+                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("Size"));
+                    product.setSize(sizes);
+                    products.add(product);
+                }
+                rs.close();
+                stmt.close();
+            }
+        }
+        return products;
+    }
+
+    //findProductbyName
+    public List<Product> findProductbyName(String name) throws SQLException, ClassNotFoundException {
+        List<Product> products = new ArrayList<>();
+        String query = "SELECT *, sizes.Size\n" +
+                        "FROM Product\n" +
+                        "JOIN sizes ON product.SizeID = sizes.SizeID\n" +
+                        "WHERE Name LIKE ? COLLATE utf8mb4_general_ci;";
+        try (
+
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+            pstmt.setString(1, "%" + name + "%");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+                    product.setId(rs.getInt(1));
+                    product.setCategoryID(category);
+                    product.setName(rs.getString(3));
+                    product.setImage(rs.getString(4));
+                    product.setPrice(rs.getDouble(5));
+                    product.setDescription(rs.getString(6));
+                    product.setStock(rs.getInt(7));
+                    product.setMatarial(rs.getString(8));
+                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("Size"));
+                    product.setSize(sizes);
+                    products.add(product);
+                }
+                rs.close();
+                stmt.close();
+            }
+        }
+        return products;
+    }
+
+
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         productDAO productDao = new productDAO();
@@ -291,9 +413,18 @@ public class productDAO {
 //            System.out.println(productdata);
 //            System.out.println("------------------------------------");
 //        }
+//        int count = productDao.countProduct();
+//        System.out.println(count);
 
-        Product findByID = productDao.getByID("1");
-        System.out.println(findByID);
+        String name = "Sofa nhập khẩu Hưng Phát Sài Gòn";
+        List<Product> all = productDao.findProductbyName(name);
+        for (Product productdata : all) {
+            System.out.println(productdata);
+            System.out.println("------------------------------------");
+        }
+
+//        Product findByID = productDao.getByID("1");
+//        System.out.println(findByID);
 
 //        List<Product> listByCateName = productDao.getListProductByCategory("Sofa Da");
 //        for (Product listBycateName : listByCateName) {

@@ -31,7 +31,11 @@
             <p><strong>Chất liệu: ${ProductDetail.matarial}</strong> <span id="product-material"></span></p>
             <div id="product-notes">${ProductDetail.description}</div>
             <div class="product-buttons">
-                <button id="add-to-cart-button">Thêm vào giỏ</button>
+                <form action="CartShopping" method="post">
+                    <input type="hidden" name="action" value="add">
+                    <input type="hidden" name="productId" value="${p.id}">
+                    <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
+                </form>
                 <button id="buy-now-button">Mua ngay</button>
             </div>
         </div>

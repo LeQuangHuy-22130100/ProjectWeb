@@ -174,34 +174,43 @@ header.header_home_menu .social_icon li {
 
 /* Phần "product-item" có thể cuộn được */
 .Left {
-    width: 50%;
+    width: 100%;
     max-height: 600px; /* Đặt chiều cao tối đa cho phần chứa các sản phẩm */
     overflow-y: auto; /* Thêm thanh cuộn dọc khi có quá nhiều sản phẩm */
     padding-right: 10px; /* Để tránh thanh cuộn che khuất sản phẩm */
     margin-left: 250px;
 }
-
 /* Định dạng cho các sản phẩm */
 .product-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 10px 0;
+    margin-bottom: 10px;
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+    border: 1px solid #ddd; /* Tùy chọn */
+    border-radius: 5px; /* Tùy chọn */
 }
 
 .product-item img {
     margin-right: 10px;
 }
 
-.product-item input[type="number"] {
-    width: 50px;
+.product-item span {
+    flex-grow: 1;
+    margin-left: 15px;
+    text-align: left;
 }
 
-.product-item button {
-    margin-left: 10px;
+.product-item input[type="number"] {
+    width: 60px;
+    margin: 0 10px;
+    text-align: center;
 }
+
+.product-item form {
+    margin: 0;
+}
+
 
 /* Các nút "Xóa tất cả" và "Xóa 2 sản phẩm" */
 #delete-all, #delete-selected {
@@ -358,3 +367,5 @@ header.header_home_menu .social_icon li {
     margin: 3px;
     padding: 10px;
 }
+
+

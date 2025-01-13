@@ -1,12 +1,21 @@
 package vn.edu.hcmuaf.fit.project.DAO.model;
 
-public class cartShopping {
+import java.io.Serializable;
+
+public class cartShopping implements Serializable {
     private int cartId;
     private Product productID;
     private User userID;
-    private double quantity;
+    private double quanlity;
     private String name;
     private String image;
+
+    public cartShopping() {}
+
+    public cartShopping(Product product, int quanlity) {
+        this.productID = product;
+        this.quanlity = quanlity;
+    }
 
     public int getCartId() {
         return cartId;
@@ -32,12 +41,12 @@ public class cartShopping {
         this.userID = userID;
     }
 
-    public double getQuantity() {
-        return quantity;
+    public double getQuanlity() {
+        return quanlity;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public void setQuanlity(double quanlity) {
+        this.quanlity = quanlity;
     }
 
     public String getName() {
@@ -62,9 +71,21 @@ public class cartShopping {
                 "cartId=" + cartId +
                 ", productID=" + productID +
                 ", userID=" + userID +
-                ", quantity=" + quantity +
+                ", quantity=" + quanlity +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
                 '}';
+    }
+
+//    public void setProductId(Product product) {
+//        this.productID = product;
+//    }
+
+    public void addQuanlity(int quanlity){
+        this.quanlity+=quanlity;
+    }
+
+    public double getTotalPrice(){
+        return this.quanlity*this.productID.getPrice();
     }
 }

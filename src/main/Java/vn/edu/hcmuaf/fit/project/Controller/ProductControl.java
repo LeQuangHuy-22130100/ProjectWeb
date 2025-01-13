@@ -59,6 +59,21 @@ public class ProductControl extends HttpServlet {
         request.setAttribute("SizeProduct",SizeData);
         request.setAttribute("PriceProduct", PriceRangeData);
         request.getRequestDispatcher("Product.jsp").forward(request,response);
+
+//        ProductService productService = new ProductService();
+//        int count = productService.countProduct();
+//        int endPage = count/3;
+//        if (count%3 != 0) {
+//            endPage++;
+//        }
+//        request.setAttribute("endPage", endPage);
+//        request.getRequestDispatcher("Product.jsp").forward(request, response);
+//
+//        // phan trang
+//        String pageIndex = request.getParameter("pageIndex");
+//        int index = Integer.parseInt(pageIndex);
+//        List<Product> list = productService.PageProducts(index);
+//        request.setAttribute("listP", list);
     }
 
     @Override

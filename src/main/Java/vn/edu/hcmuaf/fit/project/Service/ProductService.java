@@ -28,6 +28,30 @@ public class ProductService {
         return productDao.getListProductByPriceRange(min, max);
     }
 
+    public Product findById(String id) throws SQLException, ClassNotFoundException {
+        return productDao.getByID(id);
+    }
+    // phan trang
+    public int countProduct() throws SQLException, ClassNotFoundException {
+        return productDao.countProduct();
+    }
+
+    public List<Product> PageProducts(int index) throws SQLException, ClassNotFoundException {
+        return productDao.PageProducts(index);
+    }
+
+    //sort product
+    public List<Product> sortTang() throws SQLException, ClassNotFoundException {
+        return productDao.sortTang();
+    }
+    public List<Product> sortGiam() throws SQLException, ClassNotFoundException {
+        return productDao.sortGiam();
+    }
+
+    //tim product theo ten
+    public List<Product> findProductByName(String keyword) throws SQLException, ClassNotFoundException {
+        return productDao.findProductbyName(keyword);
+    }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        ProductService productService = new ProductService();
@@ -37,12 +61,12 @@ public class ProductService {
 //        System.out.println(list);
 //        System.out.println();
 //
-        ProductService productService = new ProductService();
-        String min = "12000";
-        String max = "trở lên";
-        List<Product> getProductByPriceRange = productService.getProductByPriceRange(min,max);
-        for (Product PriceRangeList : getProductByPriceRange) {
-            System.out.println(PriceRangeList);
-        }
+//        ProductService productService = new ProductService();
+//        String min = "12000";
+//        String max = "trở lên";
+//        List<Product> getProductByPriceRange = productService.getProductByPriceRange(min,max);
+//        for (Product PriceRangeList : getProductByPriceRange) {
+//            System.out.println(PriceRangeList);
+//        }
     }
 }

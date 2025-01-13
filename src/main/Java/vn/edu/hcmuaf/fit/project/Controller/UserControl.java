@@ -33,7 +33,7 @@ public class UserControl extends HttpServlet { ;
         }else {
             HttpSession session = request.getSession();
             session.setAttribute("acc", userLogin);
-            request.getRequestDispatcher("Product.jsp").forward(request, response);
+            request.getRequestDispatcher("HomePage").forward(request, response);
         }
 
         //Signin
@@ -53,8 +53,6 @@ public class UserControl extends HttpServlet { ;
             }
             request.getRequestDispatcher("HomePage.jsp").forward(request, response);
         }
-
-        //logout
 
 
     }

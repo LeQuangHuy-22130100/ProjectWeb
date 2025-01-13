@@ -5,7 +5,9 @@
   Time: 9:49 AM
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix = "f" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -36,38 +38,60 @@
             </a>
         </li>
         <li>
-            <a href="./Product.jsp">
+            <a href="Products">
                 <span class="text_header"> SẢN PHẨM</span>
             </a>
         </li>
         <li>
-            <a href="./ShowRoom.jsp">
+            <a href="ShowRoom">
                 <span class="text_header"> SHOWROOM</span>
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="contactUs">
                 <span class="text_header"> LIÊN HỆ </span>
             </a>
         </li>
     </ul>
 
     <ul class="social_icon">
-        <li>
-            <i class="fa-solid fa-user" style="color: rgb(255, 255, 255);"></i>
-            <ul class="dropdown">
-                <li><i class="bi bi-person-circle"></i> <span>Ten</span></li>
-                <li>
-                    <h5>SĐT: +84 xxx.xxx.xxx</h5>
-                </li>
-                <li><i class="bi bi-box-arrow-right"></i> <a href="#">Đăng Xuất</a></li>
-            </ul>
-        </li>
+        <%--        logout--%>
+        <c:if test="${sessionScope.acc != null}">
+            <li>
+                <i class="fa-solid fa-user" style="color: rgb(255, 255, 255);"></i>
+                <ul class="dropdown">
+                    <li><i class="bi bi-person-circle"></i><span>${sessionScope.acc.username}</span></li>
+                    <c:if test="${sessionScope.acc.isAdmin == 1}">
+                        <li>
+                            <h5>Hello ${sessionScope.acc.username} (admin)</h5>
+                        </li>
+                    </c:if>
+
+                    <c:if test="${sessionScope.acc.isClient == 1}">
+                        <li>
+                            <h5>SĐT: +84 xxx.xxx.xxx</h5>
+                        </li>
+                    </c:if>
+
+                    <li><i class="bi bi-box-arrow-right"></i> <span><a href="./Login.jsp">Đăng Xuất</a></span></li>
+                </ul>
+            </li>
+        </c:if>
+
+        <%--        login--%>
+        <c:if test="${sessionScope.acc == null}">
+            <li>
+                <i class="fa-solid fa-user" style="color: rgb(255, 255, 255);"></i>
+                <ul class="dropdown">
+                    <li><i class="bi bi-box-arrow-right"></i> <span><a href="./Login.jsp">Đăng Nhập</a></span></li>
+                </ul>
+            </li>
+        </c:if>
         <li>
             <i class="fa-solid fa-heart" style="color: #ffffff;"></i>
         </li>
         <li>
-            <a href="./CartShopping.jsp">
+            <a href="CartShopping">
                 <i class="fas fa-shopping-cart"></i>
             </a>
         </li>
