@@ -28,8 +28,17 @@ public class CategoryControl extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String categoryID = request.getParameter("cateID");
         ProductService productService= new ProductService();
-        // get product by cateID
-        List<Product> ProductData= productService.getProductbyCateID(categoryID);
+            String pageIndex = request.getParameter("pageIndex");
+            if (pageIndex == null) {
+                pageIndex = "1";
+            }
+            int index = Integer.parseInt(pageIndex);
+            int count = productService.countProductCategory(Integer.parseInt(categoryID));
+            int endPage = count / 15;
+            if (count % 15 != 0) {
+                endPage++;
+            }
+        List<Product> ProductData= productService.PageProductCategory(categoryID,index);
 
         //get all categories
         CategoryService categoryService = new CategoryService();
@@ -43,6 +52,8 @@ public class CategoryControl extends HttpServlet {
         PriceRangeService priceRangeService = new PriceRangeService();
         List<PriceRange> PriceRangeData = priceRangeService.getAllPriceRange();
 
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("stayPage", index);
         request.setAttribute("ProductControl",ProductData);
         request.setAttribute("CateProduct",CategoryData);
         request.setAttribute("SizeProduct",SizeData);

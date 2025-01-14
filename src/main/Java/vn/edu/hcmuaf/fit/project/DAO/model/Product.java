@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.project.DAO.model;
 
 public class Product {
-    private int ID;
+    private int Id;
     private categories categoryID;
     private String name;
     private String image;
@@ -13,8 +13,8 @@ public class Product {
 
     public Product(){}
 
-    public Product(int ID, categories categoryID, String name, String image, double price, String description, int stock, String matarial, Sizes sizeID) {
-        this.ID = ID;
+    public Product(int Id, categories categoryID, String name, String image, double price, String description, int stock, String matarial, Sizes sizeID) {
+        this.Id = Id;
         this.categoryID = categoryID;
         this.name = name;
         this.image = image;
@@ -25,12 +25,20 @@ public class Product {
         this.sizeID = sizeID;
     }
 
+    public Sizes getSizeID() {
+        return sizeID;
+    }
+
+    public void setSizeID(Sizes sizeID) {
+        this.sizeID = sizeID;
+    }
+
     public int getId() {
-        return ID;
+        return Id;
     }
 
     public void setId(int id) {
-        this.ID = id;
+        this.Id = id;
     }
 
     public categories getCategoryID() {
@@ -100,7 +108,7 @@ public class Product {
     @Override
     public String toString() {
         return "Product{" +
-                "id=" + ID +
+                "id=" + Id +
                 ", categoryID=" + categoryID +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +

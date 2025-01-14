@@ -111,8 +111,7 @@
                     <a href="#"> Kích Thước</a>
                     <ul class="dropdown">
                         <c:forEach items="${SizeProduct}" var="sp">
-                            <li><a href="Sizes?SizeRange=${sp.size}">${sp.size}</a></li>
-    <%--                        <li><a href="#">${sp.size}</a></li>--%>
+                            <li><a href="Sizes?SizeRange=${sp.sizeID}">${sp.size}</a></li>
                         </c:forEach>
                     </ul>
                 </li>
@@ -120,7 +119,7 @@
                     <a href="#"> Khoảng Giá</a>
                     <ul class="dropdown">
                         <c:forEach items="${PriceProduct}" var="pp">
-                            <li><a href="PriceRange?minPrice=${pp.priceMin}&maxPrice=${pp.priceMax}">${pp.priceMin} - ${pp.priceMax}</a></li>
+                            <li><a href="PriceRange?minPrice=${pp.priceMin}&maxPrice=${pp.priceMax}">$${pp.priceMin} - $${pp.priceMax}</a></li>
                         </c:forEach>
                     </ul>
                 </li>

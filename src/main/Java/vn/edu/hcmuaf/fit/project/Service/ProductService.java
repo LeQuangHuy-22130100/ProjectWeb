@@ -32,13 +32,39 @@ public class ProductService {
         return productDao.getByID(id);
     }
 
-    // phan trang
+
+    // phan trang Product
     public int countProduct() throws SQLException, ClassNotFoundException {
         return productDao.countProduct();
     }
 
     public List<Product> PageProducts(int index) throws SQLException, ClassNotFoundException {
         return productDao.PageProducts(index);
+    }
+
+
+    // Phan trang category
+    public int countProductCategory(int sizeID) throws SQLException, ClassNotFoundException {
+        return productDao.countProductCategory(sizeID);
+    }
+    public List<Product> PageProductCategory(String CategoryID, int page) throws SQLException, ClassNotFoundException {
+        return productDao.PageProductsCategoryID(CategoryID,page);
+    }
+    public List<Product> PageProductsPriceRange(String minPrice, String maxPrice, int index) throws SQLException, ClassNotFoundException {
+        return productDao.PageProductsPriceRange(minPrice, maxPrice, index);
+    }
+    public List<Product> PageProductsSize(String sizeID, int page) throws SQLException, ClassNotFoundException {
+        return productDao.PageProductsSize(sizeID,page);
+    }
+
+    //phan trang price
+    public int countProductPriceRange(int min , int max) throws SQLException, ClassNotFoundException {
+        return productDao.countProductPriceRange(min,max);
+    }
+
+    //phan trang size
+    public int countProductSize(int sizeID) throws SQLException, ClassNotFoundException {
+        return productDao.countProductSize(sizeID);
     }
 
     //sort product
@@ -56,7 +82,7 @@ public class ProductService {
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ProductService productService = new ProductService();
+//        ProductService productService = new ProductService();
 //        String sizeRange = "Dưới 2,5m";
 ////        List<Product> list = productService.getProductbyCateID("1");
 //        List<Product> list = productService.listSizeRange(sizeRange);
@@ -66,9 +92,9 @@ public class ProductService {
 //        ProductService productService = new ProductService();
 //        String min = "12000";
 //        String max = "trở lên";
-        List<Product> getProductByPriceRange = productService.PageProducts(1);
-        for (Product PriceRangeList : getProductByPriceRange) {
-            System.out.println(PriceRangeList);
-        }
+//        List<Product> getProductByPriceRange = productService.PageProducts(1);
+//        for (Product PriceRangeList : getProductByPriceRange) {
+//            System.out.println(PriceRangeList);
+//        }
     }
 }

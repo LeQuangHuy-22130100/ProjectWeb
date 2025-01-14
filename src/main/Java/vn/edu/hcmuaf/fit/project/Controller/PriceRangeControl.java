@@ -32,10 +32,21 @@ public class PriceRangeControl extends HttpServlet {
         String maxPrice = request.getParameter("maxPrice");
         ProductService productService= new ProductService();
 
+            String pageIndex = request.getParameter("pageIndex");
+            if (pageIndex == null) {
+                pageIndex = "1";
+            }
+            int index = Integer.parseInt(pageIndex);
+            int count = productService.countProductPriceRange(Integer.parseInt(minPrice),Integer.parseInt(maxPrice));
+            int endPage = count / 15;
+            if (count % 15 != 0) {
+                endPage++;
+            }
+
         // get product by PriceRange
         List<Product> ProductData= null;
         try {
-            ProductData = productService.getProductByPriceRange(minPrice,maxPrice);
+            ProductData = productService.PageProductsPriceRange(minPrice,maxPrice, index);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -52,6 +63,8 @@ public class PriceRangeControl extends HttpServlet {
         PriceRangeService priceRangeService = new PriceRangeService();
         List<PriceRange> PriceRangeData = priceRangeService.getAllPriceRange();
 
+        request.setAttribute("endPage", endPage);
+        request.setAttribute("stayPage", index);
         request.setAttribute("ProductControl",ProductData);
         request.setAttribute("CateProduct",CategoryData);
         request.setAttribute("SizeProduct",SizeData);
