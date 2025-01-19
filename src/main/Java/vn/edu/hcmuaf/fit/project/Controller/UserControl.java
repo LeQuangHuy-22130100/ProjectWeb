@@ -32,7 +32,7 @@ public class UserControl extends HttpServlet { ;
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }else {
             HttpSession session = request.getSession();
-            session.setAttribute("acc", userLogin);
+            session.setAttribute("acc", userLogin);//0
             request.getRequestDispatcher("HomePage").forward(request, response);
         }
 

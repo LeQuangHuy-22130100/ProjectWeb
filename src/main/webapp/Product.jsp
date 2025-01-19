@@ -119,7 +119,8 @@
                     <a href="#"> Khoảng Giá</a>
                     <ul class="dropdown">
                         <c:forEach items="${PriceProduct}" var="pp">
-                            <li><a href="PriceRange?minPrice=${pp.priceMin}&maxPrice=${pp.priceMax}">$${pp.priceMin} - $${pp.priceMax}</a></li>
+<%--                            <li><a href="PriceRange?minPrice=${pp.priceMin}&maxPrice=${pp.priceMax}">$${pp.priceMin} - $${pp.priceMax}</a></li>--%>
+                            <li><a href="PriceRange?priceID=${pp.priceID}">$${pp.priceMin} - $${pp.priceMax}</a></li>
                         </c:forEach>
                     </ul>
                 </li>
@@ -165,14 +166,37 @@
                     </div>
                 </c:forEach>
         </div>
+<%--        <div class="pagination">--%>
+<%--            <c:forEach var="i" begin="1" end="${endPage}">--%>
+<%--                <a href="Products?pageIndex=${i}"--%>
+<%--                   class="${i == stayPage ? 'active' : ''}">--%>
+<%--                        ${i}--%>
+<%--                </a>--%>
+<%--            </c:forEach>--%>
+<%--        </div>--%>
         <div class="pagination">
             <c:forEach var="i" begin="1" end="${endPage}">
-                <a href="Products?pageIndex=${i}"
-                   class="${i == stayPage ? 'active' : ''}">
-                        ${i}
-                </a>
+                <a href="
+                    <c:choose>
+                        <c:when test="${not empty cateID}">
+                            Categories?pageIndex=${i}&cateID=${cateID}
+                        </c:when>
+                        <c:when test="${not empty SizeRange}">
+                            Sizes?pageIndex=${i}&SizeRange=${SizeRange}
+                        </c:when>
+                        <c:when test="${not empty PriceRangeID}">
+                            PriceRange?pageIndex=${i}&PriceRangeID=${PriceRangeID}
+                        </c:when>
+                        <c:otherwise>
+                            Products?pageIndex=${i}
+                        </c:otherwise>
+                    </c:choose>"
+                           class="${i == stayPage ? 'active' : ''}">
+                                ${i}
+                        </a>
             </c:forEach>
         </div>
+
     </main>
 <footer>
     <p>&copy; 2024 Sofa Shop. All rights reserved.</p>

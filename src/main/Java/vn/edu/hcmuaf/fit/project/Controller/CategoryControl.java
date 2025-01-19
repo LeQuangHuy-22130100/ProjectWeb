@@ -33,12 +33,12 @@ public class CategoryControl extends HttpServlet {
                 pageIndex = "1";
             }
             int index = Integer.parseInt(pageIndex);
-            int count = productService.countProductCategory(Integer.parseInt(categoryID));
+            int count = productService.countProductCategory(categoryID);
             int endPage = count / 15;
             if (count % 15 != 0) {
                 endPage++;
             }
-        List<Product> ProductData= productService.PageProductCategory(categoryID,index);
+        List<Product> ProductData= productService.PageProductCategory(categoryID,index);//2index
 
         //get all categories
         CategoryService categoryService = new CategoryService();
@@ -54,6 +54,7 @@ public class CategoryControl extends HttpServlet {
 
         request.setAttribute("endPage", endPage);
         request.setAttribute("stayPage", index);
+        request.setAttribute("cateID", categoryID);
         request.setAttribute("ProductControl",ProductData);
         request.setAttribute("CateProduct",CategoryData);
         request.setAttribute("SizeProduct",SizeData);

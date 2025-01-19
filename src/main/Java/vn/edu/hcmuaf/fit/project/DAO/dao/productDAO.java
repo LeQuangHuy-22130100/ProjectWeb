@@ -237,7 +237,7 @@ public class productDAO {
         }
         return 0;
     }
-    public int countProductCategory(int cateID) throws SQLException, ClassNotFoundException{
+    public int countProductCategory(String cateID) throws SQLException, ClassNotFoundException{
         String query = "SELECT COUNT(ProductID) AS ProductCount\n" +
                 "FROM product\n" +
                 "WHERE CategoryID = ?;";
@@ -245,7 +245,7 @@ public class productDAO {
                 Connection con = DBConnect.get().getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query)
         ) {
-            pstmt.setInt(1, cateID);
+            pstmt.setString(1, cateID);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     return rs.getInt(1);
@@ -254,7 +254,7 @@ public class productDAO {
         }
         return 0;
     }
-    public int countProductSize(int sizeID ) throws SQLException, ClassNotFoundException{
+    public int countProductSize(String sizeID ) throws SQLException, ClassNotFoundException{
         String query = "SELECT COUNT(ProductID) AS ProductCount\n" +
                 "FROM product\n" +
                 "WHERE SizeID = ?;";
@@ -262,7 +262,7 @@ public class productDAO {
                 Connection con = DBConnect.get().getConnection();
                 PreparedStatement pstmt = con.prepareStatement(query)
         ) {
-            pstmt.setInt(1, sizeID);
+            pstmt.setString(1, sizeID);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                     return rs.getInt(1);
@@ -271,24 +271,41 @@ public class productDAO {
         }
         return 0;
     }
-    public int countProductPriceRange(int min , int max) throws SQLException, ClassNotFoundException{
-        String query = "SELECT COUNT(ProductID) AS ProductCount\n" +
-                "FROM product\n" +
-                "WHERE Price BETWEEN ? AND ?;";
-        try (
-                Connection con = DBConnect.get().getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)
-        ) {
-            pstmt.setInt(1, min);
-            pstmt.setInt(2, max);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    return rs.getInt(1);
-                }
+//    public int countProductPriceRange(String min , String max) throws SQLException, ClassNotFoundException{
+//        String query = "SELECT COUNT(ProductID) AS ProductCount\n" +
+//                "FROM product\n" +
+//                "WHERE Price BETWEEN ? AND ?;";
+//        try (
+//                Connection con = DBConnect.get().getConnection();
+//                PreparedStatement pstmt = con.prepareStatement(query)
+//        ) {
+//            pstmt.setString(1, min);
+//            pstmt.setString(2, max);
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                while (rs.next()) {
+//                    return rs.getInt(1);
+//                }
+//            }
+//        }
+//        return 0;
+//    }
+    public int countProductPriceRange(String id) throws SQLException, ClassNotFoundException{
+    String query = "SELECT COUNT(ProductID) AS ProductCount\n" +
+            "FROM product\n" +
+            "WHERE PriceID = ?;";
+    try (
+            Connection con = DBConnect.get().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)
+    ) {
+        pstmt.setString(1, id);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                return rs.getInt(1);
             }
         }
-        return 0;
     }
+    return 0;
+}
 
 
     // danh sach product theo trang
@@ -418,54 +435,98 @@ public class productDAO {
         return products;
     }
 
-    public List<Product> PageProductsPriceRange(String minPrice, String maxPrice, int index) throws SQLException, ClassNotFoundException {
-        int pageSize = 15;
-        int offset = (index - 1) * pageSize;
-        List<Product> products = new ArrayList<>();
-        String query =
-                "SELECT p.*, \n" +
-                        "c.Name AS category_name, \n" +
-                        "s.Size AS size_name\n" +
-                        "FROM product p\n" +
-                        "JOIN categories c ON p.CategoryId = c.CategoryId " +
-                        "JOIN sizes s ON p.SizeID = s.SizeID " +
-                        "JOIN price_range pr ON p.PriceID = pr.PriceID " +
-                        "WHERE p.Price BETWEEN ? AND ?"+
-                        "LIMIT 15 OFFSET ?;";
+//    public List<Product> PageProductsPriceRange(String minPrice, String maxPrice, int index) throws SQLException, ClassNotFoundException {
+//        int pageSize = 15;
+//        int offset = (index - 1) * pageSize;
+//        List<Product> products = new ArrayList<>();
+//        String query =
+//                "SELECT p.*, \n" +
+//                        "c.Name AS category_name, \n" +
+//                        "s.Size AS size_name\n" +
+//                        "FROM product p\n" +
+//                        "JOIN categories c ON p.CategoryId = c.CategoryId " +
+//                        "JOIN sizes s ON p.SizeID = s.SizeID " +
+//                        "JOIN price_range pr ON p.PriceID = pr.PriceID " +
+//                        "WHERE p.Price BETWEEN ? AND ?"+
+//                        "LIMIT 15 OFFSET ?;";
+//
+//
+//        try (
+//                Connection con = DBConnect.get().getConnection();
+//                PreparedStatement pstmt = con.prepareStatement(query)
+//        ) {
+//            pstmt.setString(1, minPrice);
+//
+//            if (!"trở lên".equalsIgnoreCase(maxPrice)) {
+//                pstmt.setString(2, maxPrice);
+//            }
+//            pstmt.setInt(3, offset);
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                while (rs.next()) {
+//                    Product product = new Product();
+//                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+//                    product.setId(rs.getInt(1));
+//                    product.setCategoryID(category);
+//                    product.setName(rs.getString(3));
+//                    product.setImage(rs.getString(4));
+//                    product.setPrice(rs.getDouble(5));
+//                    product.setDescription(rs.getString(6));
+//                    product.setStock(rs.getInt(7));
+//                    product.setMatarial(rs.getString(8));
+//                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("size_name"));
+//                    product.setSize(sizes);
+//                    products.add(product);
+//                }
+//                rs.close();
+//                stmt.close();
+//            }
+//        }
+//        return products;
+//    }
+public List<Product> PageProductsPriceRange(String priceID, int index) throws SQLException, ClassNotFoundException {
+    int pageSize = 15;
+    int offset = (index - 1) * pageSize;
+    List<Product> products = new ArrayList<>();
+    String query =
+            "SELECT p.*, \n" +
+                    "c.Name AS category_name, \n" +
+                    "s.Size AS size_name\n" +
+                    "FROM product p\n" +
+                    "JOIN categories c ON p.CategoryId = c.CategoryId " +
+                    "JOIN sizes s ON p.SizeID = s.SizeID " +
+                    "JOIN price_range pr ON p.PriceID = pr.PriceID " +
+                    "WHERE p.PriceID = ?"+
+                    "LIMIT 15 OFFSET ?;";
 
 
-        try (
-                Connection con = DBConnect.get().getConnection();
-                PreparedStatement pstmt = con.prepareStatement(query)
-        ) {
-            pstmt.setString(1, minPrice);
-
-            if (!"trở lên".equalsIgnoreCase(maxPrice)) {
-                pstmt.setString(2, maxPrice);
+    try (
+            Connection con = DBConnect.get().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(query)
+    ) {
+        pstmt.setString(1, priceID);
+        pstmt.setInt(2, offset);
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Product product = new Product();
+                categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+                product.setId(rs.getInt(1));
+                product.setCategoryID(category);
+                product.setName(rs.getString(3));
+                product.setImage(rs.getString(4));
+                product.setPrice(rs.getDouble(5));
+                product.setDescription(rs.getString(6));
+                product.setStock(rs.getInt(7));
+                product.setMatarial(rs.getString(8));
+                Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("size_name"));
+                product.setSize(sizes);
+                products.add(product);
             }
-            pstmt.setInt(3, offset);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    Product product = new Product();
-                    categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
-                    product.setId(rs.getInt(1));
-                    product.setCategoryID(category);
-                    product.setName(rs.getString(3));
-                    product.setImage(rs.getString(4));
-                    product.setPrice(rs.getDouble(5));
-                    product.setDescription(rs.getString(6));
-                    product.setStock(rs.getInt(7));
-                    product.setMatarial(rs.getString(8));
-                    Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("size_name"));
-                    product.setSize(sizes);
-                    products.add(product);
-                }
-                rs.close();
-                stmt.close();
-            }
+            rs.close();
+            stmt.close();
         }
-        return products;
     }
+    return products;
+}
 
     //sort product tang dan
     public List<Product> sortTang() throws SQLException, ClassNotFoundException {
@@ -572,15 +633,31 @@ public class productDAO {
     }
 
 
+    public void deleProduct (String id) throws ClassNotFoundException, SQLException {
+        String query = "DELETE FROM product WHERE ProductID = ?";
+        try (
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+                    pstmt.setString(1, id);
+                    pstmt.executeUpdate();
+
+            }
+        }
+
+
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         productDAO productDao = new productDAO();
-//        String name = "Sofa nhập khẩu Hưng Phát Sài Gòn";
-        List<Product> all = productDao.PageProductsSize("Dưới 2,5m",1);
+        String name = "Sofa nhập khẩu Hưng Phát Sài Gòn";
+        List<Product> all = productDao.getAll();
         for (Product productdata : all) {
             System.out.println(productdata);
             System.out.println("------------------------------------");
         }
+
+//        int count = productDao.countProductCategory("3");
+//        System.out.println(count);
 
     }
 }

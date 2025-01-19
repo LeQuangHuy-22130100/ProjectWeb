@@ -44,28 +44,28 @@ public class ProductService {
 
 
     // Phan trang category
-    public int countProductCategory(int sizeID) throws SQLException, ClassNotFoundException {
+    public int countProductCategory(String sizeID) throws SQLException, ClassNotFoundException {
         return productDao.countProductCategory(sizeID);
     }
+    //phan trang price
+    public int countProductPriceRange(String priceID) throws SQLException, ClassNotFoundException {
+        return productDao.countProductPriceRange(priceID);
+    }
+    //phan trang size
+    public int countProductSize(String sizeID) throws SQLException, ClassNotFoundException {
+        return productDao.countProductSize(sizeID);
+    }
+
     public List<Product> PageProductCategory(String CategoryID, int page) throws SQLException, ClassNotFoundException {
         return productDao.PageProductsCategoryID(CategoryID,page);
     }
-    public List<Product> PageProductsPriceRange(String minPrice, String maxPrice, int index) throws SQLException, ClassNotFoundException {
-        return productDao.PageProductsPriceRange(minPrice, maxPrice, index);
+    public List<Product> PageProductsPriceRange(String priceID, int index) throws SQLException, ClassNotFoundException {
+        return productDao.PageProductsPriceRange(priceID, index);
     }
     public List<Product> PageProductsSize(String sizeID, int page) throws SQLException, ClassNotFoundException {
         return productDao.PageProductsSize(sizeID,page);
     }
 
-    //phan trang price
-    public int countProductPriceRange(int min , int max) throws SQLException, ClassNotFoundException {
-        return productDao.countProductPriceRange(min,max);
-    }
-
-    //phan trang size
-    public int countProductSize(int sizeID) throws SQLException, ClassNotFoundException {
-        return productDao.countProductSize(sizeID);
-    }
 
     //sort product
     public List<Product> sortTang() throws SQLException, ClassNotFoundException {
@@ -80,6 +80,12 @@ public class ProductService {
     public List<Product> findProductByName(String keyword) throws SQLException, ClassNotFoundException {
         return productDao.findProductbyName(keyword);
     }
+
+    public void deleProduct(String id) throws SQLException, ClassNotFoundException {
+        productDao.deleProduct(id);
+    }
+
+
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 //        ProductService productService = new ProductService();

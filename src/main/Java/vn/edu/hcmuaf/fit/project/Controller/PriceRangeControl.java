@@ -28,8 +28,7 @@ public class PriceRangeControl extends HttpServlet {
     @SneakyThrows
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String minPrice = request.getParameter("minPrice");
-        String maxPrice = request.getParameter("maxPrice");
+        String priceID = request.getParameter("priceID");
         ProductService productService= new ProductService();
 
             String pageIndex = request.getParameter("pageIndex");
@@ -37,20 +36,14 @@ public class PriceRangeControl extends HttpServlet {
                 pageIndex = "1";
             }
             int index = Integer.parseInt(pageIndex);
-            int count = productService.countProductPriceRange(Integer.parseInt(minPrice),Integer.parseInt(maxPrice));
+            int count = productService.countProductPriceRange(priceID);
             int endPage = count / 15;
             if (count % 15 != 0) {
                 endPage++;
             }
 
         // get product by PriceRange
-        List<Product> ProductData= null;
-        try {
-            ProductData = productService.PageProductsPriceRange(minPrice,maxPrice, index);
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
+        List<Product> ProductData= productService.PageProductsPriceRange(priceID, index);
         //get all categories
         CategoryService categoryService = new CategoryService();
         List<categories> CategoryData= categoryService.getAll();
@@ -65,6 +58,7 @@ public class PriceRangeControl extends HttpServlet {
 
         request.setAttribute("endPage", endPage);
         request.setAttribute("stayPage", index);
+        request.setAttribute("PriceRangeID", priceID);
         request.setAttribute("ProductControl",ProductData);
         request.setAttribute("CateProduct",CategoryData);
         request.setAttribute("SizeProduct",SizeData);

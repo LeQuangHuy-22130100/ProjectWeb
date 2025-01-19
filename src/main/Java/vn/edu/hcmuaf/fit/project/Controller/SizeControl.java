@@ -32,13 +32,12 @@ public class SizeControl extends HttpServlet {
                 pageIndex = "1";
             }
             int index = Integer.parseInt(pageIndex);
-            int count = productService.countProductSize(Integer.parseInt(Sizerange));
+            int count = productService.countProductSize(Sizerange);
             int endPage = count / 15;
             if (count % 15 != 0) {
                 endPage++;
             }
-
-        // get product by size
+//        // get product by size
         List<Product> ProductData = productService.PageProductsSize(Sizerange,index);
 
         //get all categories
@@ -55,6 +54,7 @@ public class SizeControl extends HttpServlet {
 
         request.setAttribute("endPage", endPage);
         request.setAttribute("stayPage", index);
+        request.setAttribute("SizeRangeID", Sizerange);
         request.setAttribute("ProductControl",ProductData);
         request.setAttribute("CateProduct",CategoryData);
         request.setAttribute("SizeProduct",SizeData);
