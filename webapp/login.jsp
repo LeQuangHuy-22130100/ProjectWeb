@@ -22,7 +22,7 @@
 					<% if (request.getAttribute("mess") != null) { %>
 					${mess}
 					<% } %>
-			s	</p>
+				</p>
 				<div class="inputBox">
 					<input name="username" type="text" placeholder="Tên Đăng Nhập" required>
 					<i class="ri-mail-fill"></i>

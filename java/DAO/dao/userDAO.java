@@ -71,6 +71,20 @@ public class userDAO {
 	     }
 		 return user;
     }
+    
+    public boolean changePassword(int id, String newPassword) throws SQLException, ClassNotFoundException {
+    	String query = "UPDATE users_table SET Password = ? WHERE ID = ?";
+    	try (
+	    			Connection con = DBConnect.get().getConnection();
+	    			PreparedStatement pstmt = con.prepareStatement(query)
+    	) {
+    		pstmt.setString(1, newPassword);
+    		pstmt.setInt(2, id);
+    		
+    		int rowsAffected = pstmt.executeUpdate();
+    		return rowsAffected > 0;
+    	}
+    }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         userDAO userDAO = new userDAO();
