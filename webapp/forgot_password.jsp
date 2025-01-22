@@ -9,6 +9,7 @@
 <body>
 	<div class="container">
 		<form action="">
+			<h1>Bạn quên mật khẩu</h1>
 			<div class="form-group">
 				<input name="email" type="email" placeholder="Email" required>
 			</div>

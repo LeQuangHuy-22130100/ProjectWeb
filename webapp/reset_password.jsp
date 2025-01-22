@@ -8,6 +8,7 @@
 </head>
 <body>
 	<div class="reset-container">
+		<h1>Đặt lại mật khẩu</h1>
 		<form action="">
 			<div class="form-group">
 				<input name="newPassword" type="password" id="Pass_Login" placeholder="Mật Khẩu Mới" required>
