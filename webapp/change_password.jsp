@@ -8,29 +8,24 @@
 </head>
 <body>
 	<div class="container">
-		<% if(request.getAttribute("mess") != null) { %>
-            <div class="error-message">
-                <%= request.getAttribute("mess") %>
-            </div>
-        <% } %>
 		<form action="">
 			<h1>Đổi mật khẩu</h1>
+			<br>
+			<p class="text-danger" style="text-align: center; color: #9b2805">
+				<% if (request.getAttribute("mess") != null) { %>
+				${mess}
+				<% } %>
+			</p>
 			<div class="form-group">
-				<label for="currentPassword">Mật khẩu hiện tại:</label><br>
-				<input type="password" id="currentPassword" name="currentPassword" required><br><br>
+				<input name="currentPassword" type="password" id="Pass_Login" placeholder="Mật Khẩu Hiện Tại" required>
 			</div>
-		
 			<div class="form-group">
-				<label for="newPassword">Mật khẩu mới:</label><br>
-				<input type="password" id="newPassword" name="newPassword" required><br><br>
+				<input name="newPassword" type="password" id="Pass_Login" placeholder="Mật Khẩu Mới" required>
 			</div>
-		
 			<div class="form-group">
-				<label for="confirmPassword">Nhập lại mật khẩu mới:</label><br>
-				<input type="password" id="confirmPassword" name="confirmPassword" required><br><br>
+				<input name="confirmPassword" type="password" id="Pass_Login" placeholder="Nhập Lại Mật Khẩu Mới" required>
 			</div>
-		
-			<button type="submit" class="submit-btn">Đổi mật khẩu</button>
+			<button type="submit" class="submit-btn"><a href="./HomePage.jsp">Đổi mật khẩu</a></button>
 		</form>
 	</div>
 	<script src="../JS/Hide_Password.js"></script>

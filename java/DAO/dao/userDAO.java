@@ -85,6 +85,36 @@ public class userDAO {
     		return rowsAffected > 0;
     	}
     }
+    
+    public boolean isExistedEmail(String email) throws SQLException, ClassNotFoundException {
+    	String query = "SELECT COUNT(*) FROM users_table WHERE Email = ?";
+    	try (
+    				Connection con = DBConnect.get().getConnection();
+    				PreparedStatement pstmt = con.prepareStatement(query)
+    	) {
+    		pstmt.setString(1, email);
+    		try (ResultSet rs = pstmt.executeQuery()) {
+    			if (rs.next()) {
+    				return rs.getInt(1) > 0;
+    			}
+    		}
+    	}
+    	return false;
+	}
+    
+    public boolean resetPassword(String email, String newPassword) throws SQLException, ClassNotFoundException {
+    	String query = "UPDATE users_table SET Password = ? WHERE Email = ?";
+    	try (
+    				Connection con = DBConnect.get().getConnection();
+    				PreparedStatement pstmt = con.prepareStatement(query)
+    	) {
+    		pstmt.setString(1, newPassword);
+    		pstmt.setString(2, email);
+    		
+    		int rowsAffected = pstmt.executeUpdate();
+    		return rowsAffected > 0;
+    	}
+	}
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         userDAO userDAO = new userDAO();
