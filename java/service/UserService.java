@@ -15,5 +15,9 @@ public class UserService {
     public User signup(String username, String password) throws SQLException, ClassNotFoundException {
     	return userDAO.signup(username, password);
     }
+    
+    public User resetPassword(String username, String currentPassword, String newPassword) throws SQLException, ClassNotFoundException {
+    	return userDAO.resetPassword(username, currentPassword, newPassword);
+    }
 
 }

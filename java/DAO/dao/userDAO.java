@@ -1,11 +1,13 @@
 package DAO.dao;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import DAO.db.DBConnect;
-import DAO.model.*;
+import DAO.model.User;
 
 public class userDAO {
 	static Statement stmt;
@@ -71,6 +73,40 @@ public class userDAO {
 	     }
 		 return user;
     }
+    
+	public User resetPassword(String username, String currentPassword, String newPassword) throws SQLException, ClassNotFoundException {
+		User user = null;
+	    String checkQuery = "SELECT * FROM users_table WHERE Name = ? AND Password = ?";
+	    String updateQuery = "UPDATE users_table SET Password = ? WHERE Name = ?";
+	    
+	    try (Connection con = DBConnect.get().getConnection()) {
+	        // First, verify current credentials
+	        try (PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+	            checkStmt.setString(1, username);
+	            checkStmt.setString(2, currentPassword);
+	            try (ResultSet rs = checkStmt.executeQuery()) {
+	                if (!rs.next()) {
+	                    return null; // Current password is incorrect
+	                }
+	            }
+	        }
+	        
+	        // Update password
+	        try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
+	            updateStmt.setString(1, newPassword);
+	            updateStmt.setString(2, username);
+	            int rowsAffected = updateStmt.executeUpdate();
+	            
+	            if (rowsAffected > 0) {
+	                user = new User();
+	                user.setName(username);
+	                user.setPassword(newPassword);
+	            }
+	        }
+	    }
+	    return user;
+	}
+
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         userDAO userDAO = new userDAO();
