@@ -107,6 +107,37 @@ public class userDAO {
 	    return user;
 	}
 
+	public User findByEmail(String email) throws ClassNotFoundException, SQLException {
+		User user = null;
+        String query = "SELECT * FROM users_table WHERE Email = ?";
+        
+        try (Connection con = DBConnect.get().getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            
+            pstmt.setString(1, email);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setId(rs.getInt(1));
+                    user.setName(rs.getString(2));
+                    user.setEmail(rs.getString(4));
+                }
+            }
+        }
+        return user;
+	}
+	
+	public boolean emailPasswordRecovery(String email, String newPassword) throws ClassNotFoundException, SQLException {
+		String query = "UPDATE users_table SET Password = ? WHERE Email = ?";
+
+		try (Connection con = DBConnect.get().getConnection(); PreparedStatement pstmt = con.prepareStatement(query)) {
+
+			pstmt.setString(1, newPassword);
+			pstmt.setString(2, email);
+
+			return pstmt.executeUpdate() > 0;
+		}
+	}
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         userDAO userDAO = new userDAO();
