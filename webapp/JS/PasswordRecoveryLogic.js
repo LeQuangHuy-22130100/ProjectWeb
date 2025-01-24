@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 document.addEventListener("DOMContentLoaded", function () {
     // Lấy các form
     const forms = document.querySelectorAll("#passwordRecoveryForm, #OTPForm, #resetPasswordForm");
@@ -64,4 +68,4 @@ document.addEventListener("DOMContentLoaded", function () {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     }
-});
+}); 
