@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -55,9 +56,14 @@ public class PasswordRecoveryControl extends HttpServlet {
 	    session.setAttribute("generatedOTP", otp);
 	    session.setAttribute("userEmail", email);
 	    
-	    out.print("OTP sent successfully");
+	    out.print("Gửi mã OTP thành công");
 	}
 	
+	private String generateOTP() {
+		Random random = new Random();
+        return String.format("%06d", random.nextInt(999999));
+	}
+
 	private void handleVerifyOTP(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		String userOTP = request.getParameter("otp");
         String generatedOTP = (String) session.getAttribute("generatedOTP");
@@ -77,30 +83,21 @@ public class PasswordRecoveryControl extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         if (!newPassword.equals(confirmPassword)) {
-            out.print("Passwords do not match");
+            out.print("Mật khẩu không khớp");
             return;
         }
         
-        // Assuming you have a method to get username by email in UserService
-        // This is a placeholder and should be implemented in your UserService
-        String username = getUsernameByEmail(email);
+        boolean success = userService.emailPasswordRecovery(email, newPassword);
         
-        if (username == null) {
-            out.print("User not found");
-            return;
+        if (!success) {
+        	out.print("Khôi phục mật khẩu thất bại");
+        	return;
         }
         
-        // Reset password
-        // Note: In a real application, you would hash the password before storing
-        userService.resetPassword(username, null, newPassword);
+        out.print("Khôi phục mật khẩu thành công");
         
-        out.print("Password reset successfully");
+        session.removeAttribute("generateOTP");
+        session.removeAttribute("userEmail");
 	}
 	
-	private String getUsernameByEmail(String email) {
-        // TODO: Implement method to retrieve username by email
-        // This would typically involve a database lookup
-        return null;
-    }
-
 }

@@ -10,7 +10,7 @@
 	<!-- Form nhập email -->
 	<div class="email-container active">
 		<form id="emailForm">
-			<h1>Bạn quên mật khẩu</h1>
+			<h1>Bạn quên mật khẩu?</h1>
 			<div class="email-form-group">
 				<input name="email" type="email" placeholder="Email" required>
 			</div>
@@ -34,7 +34,7 @@
 	<!-- Form đặt lại mậ khẩu -->	
 	<div class="recovery-container">
 		<form id="passwordRecoveryForm">
-			<h1>Đặt lại mật khẩu</h1>
+			<h1>Khôi phục mật khẩu</h1>
 			<div class="recovery-form-group">
 				<input name="newPassword" type="password" placeholder="Mật Khẩu Mới" required>
 			</div>

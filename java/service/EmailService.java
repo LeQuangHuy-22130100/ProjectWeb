@@ -29,10 +29,10 @@ public class EmailService {
     	
     	try {
 			Message mess = new MimeMessage(session);
-			mess.setFrom(new InternetAddress("sender@example.com"));
+			mess.setFrom(new InternetAddress("tongduykien6a1@gmail.com"));
 			mess.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-			mess.setSubject("Password Recovery OTP");
-			mess.setText("Your OTP is: " + otp);
+			mess.setSubject("Mã OTP khôi phục mật khẩu");
+			mess.setText("Mã OTP của bạn là: " + otp);
 			Transport.send(mess);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
