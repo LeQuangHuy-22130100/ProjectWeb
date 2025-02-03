@@ -26,7 +26,7 @@
 
 <body>
 <header class="header_home_menu">
-    <img src="/JSPWeb/IMG/logo.jpg" alt="" width="50">
+    <img src="./JSPWeb/IMG/logo.jpg" alt="" width="50">
     <ul class="menu">
         <li>
             <a href="./HomePage.jsp">
@@ -218,7 +218,7 @@
 </body>
 <script>
     function redirectToCheckout() {
-        window.location.href = "./Checkout.jsp";
+        window.location.href = "./CheckOut.jsp";
     }
 </script>
 
