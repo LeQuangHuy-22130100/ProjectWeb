@@ -29,7 +29,7 @@ public class EmailService {
     	
     	try {
 			Message mess = new MimeMessage(session);
-			mess.setFrom(new InternetAddress("tongduykien6a1@gmail.com"));
+			mess.setFrom(new InternetAddress("tongkien930@gmail.com"));
 			mess.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
 			mess.setSubject("Mã OTP khôi phục mật khẩu");
 			mess.setText("Mã OTP của bạn là: " + otp);

@@ -3,63 +3,105 @@
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Lấy các form
-    const forms = document.querySelectorAll("#passwordRecoveryForm, #OTPForm, #resetPasswordForm");
-    const passwordRecoveryForm = document.getElementById("passwordRecoveryForm");
+    const emailForm = document.getElementById("emailForm");
     const OTPForm = document.getElementById("OTPForm");
-    const resetPasswordForm = document.getElementById("resetPasswordForm");
-
-    // Lấy các nút
-    const sendOTPBtn = document.getElementById("sendOTPBtn");
-    const verifyOTPBtn = document.getElementById("verifyOTPBtn");
-    const resetPasswordBtn = document.getElementById("resetPasswordBtn");
-
-    // Hiển thị form đầu tiên, ẩn các form còn lại
-    forms.forEach((form, index) => {
-        if (index === 0) {
-            form.classList.add("active");
-        } else {
-            form.classList.remove("active");
-        }
-    });
-
-    // Chuyển từ form email -> form OTP
-    sendOTPBtn.addEventListener("click", function () {
-        const emailInput = document.querySelector("input[name='email']");
-        const email = emailInput.value.trim();
-
+    const passwordRecoveryForm = document.getElementById("passwordRecoveryForm");
+    
+    // Xử lý gửi email
+    emailForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const email = document.querySelector("input[name='email']").value;
+        
         if (!validateEmail(email)) {
             alert("Vui lòng nhập email hợp lệ.");
             return;
         }
 
-        passwordRecoveryForm.classList.remove("active");
-        OTPForm.classList.add("active");
+        const data = new URLSearchParams();
+        data.append('action', 'sendOTP');
+        data.append('email', email);
+
+        fetch('forgot_password', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => response.text())
+        .then(message => {
+            if(message === 'Gửi mã OTP thành công') {
+                document.querySelector('.email-container').classList.remove('active');
+                document.querySelector('.OTP-container').classList.add('active');
+            }
+            alert(message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi gửi OTP');
+        });
     });
 
-    // Chuyển từ form OTP -> form đặt lại mật khẩu
-    verifyOTPBtn.addEventListener("click", function () {
-        const otpInput = document.querySelector("input[name='otp']");
-        const otp = otpInput.value.trim();
+    // Xử lý xác thực OTP
+    OTPForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const otp = document.querySelector("input[name='otp']").value;
 
         if (otp.length !== 6) {
             alert("OTP phải có 6 ký tự.");
             return;
         }
 
-        OTPForm.classList.remove("active");
-        resetPasswordForm.classList.add("active");
+        const data = new URLSearchParams();
+        data.append('action', 'verifyOTP');
+        data.append('otp', otp);
+
+        fetch('forgot_password', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => response.text())
+        .then(message => {
+            if(message === 'OTP verified') {
+                document.querySelector('.OTP-container').classList.remove('active');
+                document.querySelector('.recovery-container').classList.add('active');
+            } else {
+                alert(message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi xác thực OTP');
+        });
     });
 
-    // Đặt lại mật khẩu
-    resetPasswordBtn.addEventListener("click", function () {
-        alert("Mật khẩu đã được đặt lại thành công!");
-        // Reset về form đầu tiên
-        forms.forEach((form, index) => {
-            form.classList.remove("active");
-            if (index === 0) {
-                form.classList.add("active");
+    // Xử lý đặt lại mật khẩu
+    passwordRecoveryForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        const newPassword = document.querySelector("input[name='newPassword']").value;
+        const confirmPassword = document.querySelector("input[name='confirmPassword']").value;
+
+        if (newPassword !== confirmPassword) {
+            alert("Mật khẩu không khớp!");
+            return;
+        }
+
+        const data = new URLSearchParams();
+        data.append('action', 'resetPassword');
+        data.append('newPassword', newPassword);
+        data.append('confirmPassword', confirmPassword);
+
+        fetch('forgot_password', {
+            method: 'POST',
+            body: data
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);
+            if(message === 'Khôi phục mật khẩu thành công') {
+                window.location.href = 'login.jsp';
             }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi đặt lại mật khẩu');
         });
     });
 

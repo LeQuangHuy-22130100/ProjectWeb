@@ -9,7 +9,7 @@
 <body>
 	<!-- Form nhập email -->
 	<div class="email-container active">
-		<form id="emailForm">
+		<form id="emailForm" action="forgot_password" method="post">
 			<h1>Bạn quên mật khẩu?</h1>
 			<div class="email-form-group">
 				<input name="email" type="email" placeholder="Email" required>
@@ -21,7 +21,7 @@
 	
 	<!-- Form nhập OTP -->	
 	<div class="OTP-container">
-		<form id="OTPForm">
+		<form id="OTPForm" action="forgot_password" method="post">
 			<h1>Mã OTP</h1>
 			<div class="OTP-form-group">
 				<input name="otp" type="text" placeholder="OTP" maxlength="6" required>
@@ -31,9 +31,9 @@
 		<div id="notification" class="notification"></div>
 	</div>	
 	
-	<!-- Form đặt lại mậ khẩu -->	
+	<!-- Form đặt lại mật khẩu -->	
 	<div class="recovery-container">
-		<form id="passwordRecoveryForm">
+		<form id="passwordRecoveryForm" action="forgot_password" method="post">
 			<h1>Khôi phục mật khẩu</h1>
 			<div class="recovery-form-group">
 				<input name="newPassword" type="password" placeholder="Mật Khẩu Mới" required>
@@ -45,6 +45,6 @@
 		</form>
 		<div id="notification" class="notification"></div>
 	</div>		
-	<script type="./JS/PasswordRecoveryLogic.js"></script>
+	<script src="./JS/PasswordRecoveryLogic.js"></script>
 </body>
 </html>

@@ -53,10 +53,19 @@ public class PasswordRecoveryControl extends HttpServlet {
 	    String otp = generateOTP(); // Generate OTP here
 	    PrintWriter out = response.getWriter();
 	    
-	    session.setAttribute("generatedOTP", otp);
-	    session.setAttribute("userEmail", email);
-	    
-	    out.print("Gửi mã OTP thành công");
+	    try {
+			UserService userService = new UserService();
+			String generatedOTP = userService.generateAndSendOTP(email);
+			if (generatedOTP == null) {
+				out.print("Email không tồn tại");
+				return;
+			}
+			session.setAttribute("generatedOTP", generatedOTP);
+		    session.setAttribute("userEmail", email);
+		    out.print("Gửi mã OTP thành công");
+		} catch (Exception e) {
+			out.print("Lỗi gửi OTP: " + e.getMessage());
+		}
 	}
 	
 	private String generateOTP() {

@@ -10,7 +10,7 @@
 <body>
 	<div class="container">
 		<form action="">
-			<h1>Đổi mật khẩu</h1>
+			<h1>Đổi Mật Khẩu</h1>
 			<br>
 			<p class="text-danger" style="text-align: center; color: #9b2805">
 				<% if (request.getAttribute("mess") != null) { %>
@@ -26,7 +26,7 @@
 			<div class="form-group">
 				<input name="confirmPassword" type="password" id="Pass_Login" placeholder="Nhập Lại Mật Khẩu Mới" required>
 			</div>
-			<button type="submit" class="submit-btn"><a href="./HomePage.jsp">Đổi mật khẩu</a></button>
+			<button type="submit" class="submit-btn"><a href="./HomePage.jsp">Lưu</a></button>
 		</form>
 	</div>
 	<script src="../JS/Hide_Password.js"></script>
