@@ -7,117 +7,13 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-  <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./JSPWeb/CSS/ProductManagement.css">
   <title>Management System</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f9;
-    }
-
-    header {
-      background-color: #333;
-      color: #fff;
-      padding: 10px 20px;
-      text-align: center;
-    }
-
-    .main {
-      display: flex;
-    }
-
-    .sidebar {
-      width: 250px;
-      background-color: #2c3e50;
-      color: #fff;
-      padding: 20px;
-      height: 100vh;
-      position: fixed;
-    }
-
-    .sidebar h2 {
-      margin-top: 0;
-      margin-bottom: 20px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar ul li {
-      margin-bottom: 10px;
-    }
-
-    .sidebar ul li a {
-      color: #fff;
-      text-decoration: none;
-      padding: 10px;
-      display: block;
-      border-radius: 4px;
-    }
-
-    .sidebar ul li a:hover {
-      background-color: #34495e;
-    }
-
-    .content {
-      margin-left: 270px;
-      padding: 20px;
-      width: calc(100% - 270px);
-    }
-
-    h1, h2 {
-      margin: 0 0 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-    }
-
-    table th, table td {
-      padding: 10px;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
-
-    table th {
-      background-color: #f4f4f4;
-    }
-
-    button {
-      padding: 8px 12px;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .btn-delete {
-      background-color: #dc3545;
-    }
-
-    section {
-      margin-bottom: 40px;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
 <header>
@@ -133,18 +29,20 @@
     </ul>
   </div>
   <div class="content">
-    <!-- Product Management -->
     <section id="product-management">
       <h2>Quản lý sản phẩm</h2>
+      <button class="btn-add" onclick="showAddProductForm()">Thêm sản phẩm mới</button>
       <table>
         <thead>
         <tr>
           <th>ID</th>
           <th>Image</th>
           <th>Name</th>
-          <th>Type</th>
+          <th>Category</th>
           <th>Size</th>
           <th>Stock</th>
+          <th>description</th>
+          <th>Material</th>
           <th>Price</th>
           <th>Actions</th>
         </tr>
@@ -155,23 +53,168 @@
             <td>${pm.id}</td>
             <td><img src="${pm.image}" alt="Product 1" width="50"></td>
             <td>${pm.name}</td>
-            <td>${pm.matarial}</td>
+            <td>${pm.categoryID.name}</td>
             <td>${pm.sizeID.size}</td>
             <td>${pm.stock}</td>
+            <td>${pm.description}</td>
+            <td>${pm.matarial}</td>
             <td>${pm.price}</td>
             <td><button class="btn-delete"><a href="delete?id=${pm.id}">Delete</a></button></td>
           </tr>
         </c:forEach>
         </tbody>
       </table>
+
+      <div id="overlay"></div>
+      <div id="add-product-form">
+        <h3>Thêm sản phẩm mới</h3>
+        <form action="addProduct" method="post">
+          <div class="form-group">
+            <label for="product-id">ID:</label>
+            <input type="text" id="product-id" name="id">
+          </div>
+
+          <div class="form-group">
+            <label for="product-img">Image:</label>
+            <input type="text" id="product-img" placeholder="Image URL" name="img">
+          </div>
+
+          <div class="form-group">
+            <label for="product-name">Name:</label>
+            <input type="text" id="product-name" name="name">
+          </div>
+
+          <div class="form-group">
+            <label for="product-Category">Category:</label>
+            <select name="category" id="product-Category">
+              <c:forEach var="cp" items="${CateProduct}">
+                <option value="${cp.categoryId}">${cp.name}</option>
+              </c:forEach>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="product-size">Size:</label>
+            <select name="size" id="product-size">
+              <c:forEach var="sp" items="${SizeProduct}">
+                <option value="${sp.sizeID}">${sp.size}</option>
+              </c:forEach>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="product-stock">Stock:</label>
+            <input type="number" id="product-stock" name="stock">
+          </div>
+
+          <div class="form-group">
+            <label for="product-description">Description:</label>
+            <input type="text" id="product-description" name="description">
+          </div>
+
+          <div class="form-group">
+            <label for="product-Material">Material:</label>
+            <input type="text" id="product-Material" name="material">
+          </div>
+
+          <div class="form-group">
+            <label for="product-price">Price:</label>
+            <input type="text" id="product-price" name="price">
+          </div>
+
+          <button type="submit" class="btn-add">Thêm sản phẩm</button>
+        </form>
+<%--        <div class="form-group">--%>
+<%--          <label for="product-id">ID:</label>--%>
+<%--          <input type="text" id="product-id" name="id">--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-img">Image:</label>--%>
+<%--          <input type="text" id="product-img" placeholder="Image URL" name="img">--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-name">Name:</label>--%>
+<%--          <input type="text" id="product-name" name="name">--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-Category">Category:</label>--%>
+<%--          <select name="category" id="product-Category">--%>
+<%--            <c:forEach var="cp" items="${CateProduct}">--%>
+<%--              <option value="${cp.categoryId}">${cp.name}</option>--%>
+<%--            </c:forEach>--%>
+<%--          </select>--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-size">Size:</label>--%>
+<%--          <select name="size" id="product-size">--%>
+<%--            <c:forEach var="sp" items="${SizeProduct}">--%>
+<%--              <option value="${sp.sizeID}">${sp.size}</option>--%>
+<%--            </c:forEach>--%>
+<%--          </select>--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-stock">Stock:</label>--%>
+<%--          <input type="number" id="product-stock" name="stock">--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-description">description:</label>--%>
+<%--          <input type="text" id="product-description" name="description">--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-Material">Material:</label>--%>
+<%--          <input type="text" id="product-Material" name="material">--%>
+<%--        </div>--%>
+
+<%--        <div class="form-group">--%>
+<%--          <label for="product-price">Price:</label>--%>
+<%--          <input type="text" id="product-price" name="price">--%>
+<%--        </div>--%>
+
+<%--        &lt;%&ndash;        <input type="submit" class="btn-add" value="addProduct" onclick="addProduct()">&ndash;%&gt;--%>
+<%--        <button type="submit" class="btn-add" value="addProduct" onclick="addProduct()">Thêm sản phẩm </button>--%>
+
+      </div>
     </section>
 
-    <!-- Information Management -->
     <section id="information-management">
       <h2>Information Management</h2>
       <p>Here you can manage additional information for your system. This section can be customized as needed.</p>
     </section>
   </div>
 </div>
+
+<script>
+  function showAddProductForm() {
+    const overlay = document.getElementById('overlay');
+    const form = document.getElementById('add-product-form');
+    overlay.style.display = 'block';
+    form.style.display = 'block';
+    setTimeout(() => {
+      form.classList.add('show');
+    }, 10);
+  }
+
+  function hideAddProductForm() {
+    const overlay = document.getElementById('overlay');
+    const form = document.getElementById('add-product-form');
+    form.classList.remove('show');
+    setTimeout(() => {
+      form.style.display = 'none';
+      overlay.style.display = 'none';
+    }, 300);
+  }
+
+  // Khi click vào overlay sẽ ẩn bảng
+  document.getElementById('overlay').addEventListener('click', hideAddProductForm);
+
+</script>
 </body>
 </html>
+

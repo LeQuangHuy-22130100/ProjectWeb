@@ -645,12 +645,64 @@ public List<Product> PageProductsPriceRange(String priceID, int index) throws SQ
             }
         }
 
+    public void addProduct (String id, String cateID, String name, String img, String price, String description, String stock, String material, String sizeID, String priceID) throws SQLException, ClassNotFoundException {
+        String query = "INSERT INTO product (product.ProductID, product.CategoryID, product.Name, product.Image, product.Price, product.Description, product.Stock, product.Material, product.SizeID,product.PriceID)\n" +
+                        "VALUES (?,?,?,?,?,?,?,?,?,?);";
+        try (
+                Connection con = DBConnect.get().getConnection();
+                PreparedStatement pstmt = con.prepareStatement(query)
+        ) {
+            pstmt.setString(1, id);
+            pstmt.setString(2, cateID);
+            pstmt.setString(3, name);
+            pstmt.setString(4, img);
+            pstmt.setString(5, price);
+            pstmt.setString(6, description);
+            pstmt.setString(7, stock);
+            pstmt.setString(8, material);
+            pstmt.setString(9, sizeID);
+            pstmt.setString(10, priceID);
+            pstmt.executeUpdate();
+        }
+    }
+
+
+    public List<Product> getProductsNew() throws SQLException, ClassNotFoundException {
+        rs = stmt.executeQuery(
+                "SELECT *, \n" +
+                        "       c.Name AS category_name, \n" +
+                        "       s.Size AS size_name\n" +
+                        "FROM product p\n" +
+                        "JOIN categories c ON p.CategoryID = c.CategoryID\n" +
+                        "JOIN sizes s ON p.SizeID = s.SizeID\n" +
+                        "WHERE p.ProductID > 50;"
+        );
+        while (rs.next()) {
+            Product product = new Product();
+            categories category = new categories(rs.getInt("CategoryID"), rs.getString("Name"));
+            product.setId(rs.getInt(1));
+            product.setCategoryID(category);
+            product.setName(rs.getString(3));
+            product.setImage(rs.getString(4));
+            product.setPrice(rs.getDouble(5));
+            product.setDescription(rs.getString(6));
+            product.setStock(rs.getInt(7));
+            product.setMatarial(rs.getString(8));
+            Sizes sizes = new Sizes(rs.getInt("SizeID"), rs.getString("size_name"));
+            product.setSize(sizes);
+            products.add(product);
+        }
+        rs.close();
+        stmt.close();
+
+        return products;
+        }
 
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         productDAO productDao = new productDAO();
         String name = "Sofa nhập khẩu Hưng Phát Sài Gòn";
-        List<Product> all = productDao.getAll();
+        List<Product> all = productDao.getProductsNew();
         for (Product productdata : all) {
             System.out.println(productdata);
             System.out.println("------------------------------------");

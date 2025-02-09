@@ -6,15 +6,17 @@ public class User {
     private String password;
     private int isAdmin;
     private int isClient;
+    private String email;
 
     public User() {}
 
-    public User(int id, String username, String password, int isAdmin, int isClient) {
+    public User(int id, String username, String password, int isAdmin, int isClient, String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.isAdmin = isAdmin;
         this.isClient = isClient;
+        this.email = email;
     }
 
     public int getId() {
@@ -55,6 +57,14 @@ public class User {
 
     public void setIsClient(int isClient) {
         this.isClient = isClient;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

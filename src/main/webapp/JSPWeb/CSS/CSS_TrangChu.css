@@ -180,6 +180,147 @@ header.header_home_menu .social_icon li {
     column-gap: 0.7rem;
 }
 
+.product-carousel {
+    background-color: #222;
+    padding: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.carousel-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    width: 90%;
+    margin: auto;
+}
+
+.product-items {
+    display: flex;
+    gap: 20px;
+}
+
+.product-item {
+    flex: 0 0 auto;
+    background-color: #333;
+    border: 1px solid #555;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    min-width: 200px;
+}
+
+.product-item img {
+    width: 150px; /* Set cứng chiều rộng */
+    height: 150px; /* Set cứng chiều cao */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo, giữ tỉ lệ */
+    border-radius: 5px; /* Tùy chỉnh viền bo tròn */
+}
+
+.price {
+    color: #f8d32d;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 10px;
+}
+.btn-group {
+    display: flex; /* Hiển thị các nút theo hàng ngang */
+    justify-content: center; /* Canh giữa các nút trong nhóm */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 10px; /* Khoảng cách phía trên nhóm nút */
+}
+
+.add-to-cart,
+.view-details {
+    padding: 10px 20px; /* Khoảng cách bên trong nút */
+    background-color: #007bff; /* Màu nền */
+    color: white; /* Màu chữ */
+    border: none; /* Loại bỏ viền nút */
+    border-radius: 5px; /* Bo góc */
+    cursor: pointer; /* Hiệu ứng con trỏ khi hover */
+    font-size: 14px; /* Kích thước chữ */
+    text-align: center; /* Canh giữa nội dung */
+    text-decoration: none; /* Loại bỏ gạch chân trong liên kết */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+}
+
+.add-to-cart:hover,
+.view-details:hover {
+    background-color: #0056b3; /* Màu khi hover */
+}
+
+.view-details a {
+    color: white; /* Màu chữ của liên kết */
+    text-decoration: none; /* Loại bỏ gạch chân của liên kết */
+    display: inline-block; /* Đảm bảo kích thước bao lấy nội dung */
+    width: 100%; /* Để chiếm toàn bộ chiều rộng nút */
+    height: 100%; /* Để chiếm toàn bộ chiều cao nút */
+}
+
+form {
+    margin: 0; /* Loại bỏ khoảng cách của form */
+}
+
+
+.btn-detail, .btn-add-to-cart {
+    flex: 1;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-detail:hover, .btn-add-to-cart:hover {
+    background-color: #555;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
+.carousel-btn:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+}
+
+
+
+
 /* layer_3 */
 .layer_3{
     text-align: center;

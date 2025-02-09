@@ -143,7 +143,7 @@
             <div class="total" style="display: flex;">
                 <h4>Tổng Tiền: <%= numberFormat.format(cartItems.stream().mapToDouble(cartShopping::getTotalPrice).sum()) %></h4>
             </div>
-            <button type="submit" class="btn">Thanh toán</button>
+            <button type="submit" class="btn" onclick="redirectToCheckout()">Thanh toán</button>
         </div>
         <div class="Infor_text">
             <p>
@@ -230,6 +230,11 @@
 
     <script src="./JSPWeb/js/scoller_header.js"></script>
     <script src="./JSPWeb/js/deleteProduct.js"></script>
+<script>
+    function redirectToCheckout() {
+        window.location.href = "./CheckOut.jsp";
+    }
+</script>
     </body>
 
     </html>

@@ -123,6 +123,45 @@
     </div>
 </div>
 
+<div class="product-carousel">
+    <h2 style="text-align: center; color: white;">DANH MỤC SẢN PHẨM</h2>
+    <div class="carousel-wrapper">
+        <!-- Nút điều hướng trái -->
+        <button class="carousel-btn left-btn">
+            <i class="fa fa-chevron-left"></i>
+        </button>
+
+        <!-- Khu vực sản phẩm -->
+        <div class="carousel-container">
+            <div class="product-items">
+                <!-- Sản phẩm 1 -->
+                <c:forEach var="listnew" items="${listnewProduct}">
+                    <div class="product-item">
+                        <img src="${listnew.image}" alt="Sản phẩm 1">
+                        <h3>${listnew.name}</h3>
+                        <p class="price">${listnew.price}</p>
+                        <div class="btn-group">
+                            <form action="CartShopping" method="post">
+                                <input type="hidden" name="action" value="add">
+                                <input type="hidden" name="productId" value="${listnew.id}">
+                                <button type="submit" class="add-to-cart">Thêm vào giỏ hàng</button>
+                            </form>
+                            <button class="view-details">
+                                <a href="ProductDetail?ProductID=${listnew.id}">Chi tiết</a>
+                            </button>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+
+        <!-- Nút điều hướng phải -->
+        <button class="carousel-btn right-btn">
+            <i class="fa fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
 
 <div class="layer_3">
     <div class="text_layer3">
@@ -242,6 +281,7 @@
 
 
 <script src="./JSPWeb/js/scoller_header.js"></script>
+<script src="./JSPWeb/js/MovingLeftRight.js"></script>
 </body>
 
 </html>

@@ -109,6 +109,71 @@ public class userDAO {
     }
 
 
+    public User resetPassword(String username, String currentPassword, String newPassword) throws SQLException, ClassNotFoundException {
+        User user = null;
+        String checkQuery = "SELECT * FROM users_table WHERE Name = ? AND Password = ?";
+        String updateQuery = "UPDATE users_table SET Password = ? WHERE Name = ?";
+
+        try (Connection con = DBConnect.get().getConnection()) {
+            // First, verify current credentials
+            try (PreparedStatement checkStmt = con.prepareStatement(checkQuery)) {
+                checkStmt.setString(1, username);
+                checkStmt.setString(2, currentPassword);
+                try (ResultSet rs = checkStmt.executeQuery()) {
+                    if (!rs.next()) {
+                        return null; // Current password is incorrect
+                    }
+                }
+            }
+
+            // Update password
+            try (PreparedStatement updateStmt = con.prepareStatement(updateQuery)) {
+                updateStmt.setString(1, newPassword);
+                updateStmt.setString(2, username);
+                int rowsAffected = updateStmt.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    user = new User();
+                    user.setUsername(username);
+                    user.setPassword(newPassword);
+                }
+            }
+        }
+        return user;
+    }
+
+    public boolean emailPasswordRecovery(String email, String newPassword) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE users_table SET Password = ? WHERE Email = ?";
+
+        try (Connection con = DBConnect.get().getConnection(); PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, email);
+
+            return pstmt.executeUpdate() > 0;
+        }
+    }
+
+    public User findByEmail(String email) throws ClassNotFoundException, SQLException {
+        User user = null;
+        String query = "SELECT * FROM users_table WHERE Email = ?";
+
+        try (Connection con = DBConnect.get().getConnection();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+
+            pstmt.setString(1, email);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    user = new User();
+                    user.setId(rs.getInt(1));
+                    user.setUsername(rs.getString(2));
+                    user.setEmail(rs.getString(4));
+                }
+            }
+        }
+        return user;
+    }
+
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         userDAO userDAO = new userDAO();
 //        User users = userDAO.login("Nguyễn Văn A", "123");

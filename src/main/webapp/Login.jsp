@@ -47,7 +47,7 @@
 
             <div class="remember_forgot">
                 <label><input type="checkbox">Nhớ tôi</label>
-                <a href="#">Bạn Quên Mật Khẩu?</a>
+                <a href="./ResetPass.jsp">Bạn Quên Mật Khẩu?</a>
             </div>
             <button type="submit" class="btn">Đăng Nhập</button>
 
