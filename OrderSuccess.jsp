@@ -21,6 +21,8 @@
 <script>
     function redirectToCart() {
         window.location.href = "CartShopping.jsp";
+    }    function redirectToCart() {
+        window.location.href = "CartShopping.jsp";
     }
 </script>
 
